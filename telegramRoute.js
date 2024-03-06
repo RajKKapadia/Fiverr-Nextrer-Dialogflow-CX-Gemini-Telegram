@@ -9,10 +9,12 @@ const { sendMessage } = require('./telegramApi');
 
 const handleDialogflowQuery = async (chatId, query) => {
     const detectedIntentTextResponse = await detectIntentText(query, `abcde-fhgij-${chatId}-12345`);
+    console.log(detectedIntentTextResponse);
     const messages = detectedIntentTextResponse.responses;
     messages.forEach(async (message) => {
         await sendMessage(chatId, message);
     });
+    console.log('Success.');
 };
 
 router.post('/webhook', async (req, res) => {
@@ -32,7 +34,7 @@ router.post('/webhook', async (req, res) => {
 router.get('/setWebhook', async (req, res) => {
     try {
         const baseUrl = `${req.protocol}s://${req.get('host')}`;
-        const url = `${baseUrl}/telegram/webhook`;
+        const url = `${baseUrl}/telegramWebhook/telegram/webhook`;
         let options = {
             method: 'POST',
             url: `https://api.telegram.org/bot${TELEGRAM_API_KEY}/setWebhook`,
