@@ -4,9 +4,10 @@ const { GEMINI_API_KEY } = require('./constant');
 const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-const generateResponse = async (prompt) => {
+const generateResponse = async (query, chatHistory) => {
     try {
-        const result = await model.generateContent(prompt);
+        const chat = model.startChat({ history: chatHistory });
+        const result = await chat.sendMessage(query);
         const response = result.response;
         const text = response.text();
         return {

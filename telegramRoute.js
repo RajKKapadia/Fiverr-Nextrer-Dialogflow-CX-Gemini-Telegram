@@ -18,8 +18,10 @@ const handleDialogflowQuery = async (chatId, query) => {
 };
 
 router.post('/webhook', async (req, res) => {
-    const message = req.body.message;
     try {
+        console.log('A new message came.')
+        const message = req.body.message;
+        console.log(JSON.stringify(message, 2, ' '));
         if (message && message.text) {
             const chatId = message.chat.id;
             const query = message.text;
